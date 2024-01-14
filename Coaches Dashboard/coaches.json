@@ -1,0 +1,1213 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 29,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT count(meetings.id) as Sessions\r\nFROM dev.staff as staff JOIN dev.meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere staff.job=\"Coach\" AND meetings.created_at  and CONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00')\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Total Classes",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT count(Distinct staff.id) as Sessions\r\nFROM dev.staff as staff JOIN dev.meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere staff.job=\"Coach\" AND meetings.created_at  and CONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00')\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Total Active Coaches",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT count(staff.id)\r\nFROM dev.staff as staff\r\nwhere staff.job=\"Coach\"",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Total Coaches",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT staff.id as CoachID, staff.name as Name, count(staff.id) as Sessions\r\nFROM dev.staff as staff JOIN dev.meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere staff.job=\"Coach\" AND meetings.created_at  and CONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00')\r\ngroup by staff.id\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Classes Scheduled per Coach",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 3
+      },
+      "id": 4,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "percent",
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 3,
+          "refId": "A"
+        }
+      ],
+      "title": "Classes Scheduled per Coach",
+      "transformations": [
+        {
+          "id": "rowsToFields",
+          "options": {
+            "mappings": [
+              {
+                "fieldName": "Name",
+                "handlerKey": "field.name"
+              },
+              {
+                "fieldName": "Sessions",
+                "handlerKey": "field.value"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Percentage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 6,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    staff.name as Coach,\r\n    services.name as Service,\r\n    loc.name as Location,\r\n    COUNT(DISTINCT rez.users_id) as Users,\r\n    meetings.capacity as Capacity,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.services as services ON meetings.services_id = services.id\r\nJOIN\r\n    dev.locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    meetings.capacity,\r\n    staff.name,\r\n    services.name,\r\n    loc.name\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Percentage Filled per Class",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MeetingID"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 23
+      },
+      "id": 8,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    staff.name as Coach,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    staff.name",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Percentage Filled per Class (Coaches)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MeetingID"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 23
+      },
+      "id": 10,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    services.name as Service,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.services as services ON meetings.services_id = services.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    services.name\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Percentage Filled per Class (Services)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MeetingID"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 23
+      },
+      "id": 11,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "PercentageUsers"
+          }
+        ]
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    loc.name as Location,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    loc.name\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Percentage Filled per Class (Locations)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 8,
+        "x": 0,
+        "y": 32
+      },
+      "id": 7,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "percent",
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 14,
+          "refId": "A"
+        }
+      ],
+      "title": "Payment per Coach Breakdown",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Coach",
+                "Payment"
+              ]
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Coach": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Payment": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "vjMPI064z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 16,
+        "x": 8,
+        "y": 32
+      },
+      "id": 14,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "vjMPI064z"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    loc.name as Location,\r\n    staff.name as Coach,\r\n    COUNT(DISTINCT meetings.id) as Classes,\r\n    COUNT(DISTINCT rez.users_id) as Attendance,\r\n    COUNT(DISTINCT rez.id) as Reservations,\r\n    CASE\r\n        WHEN \"$cfrate\" < 0 OR \"$ccom\" < 0 THEN 'ERR'\r\n        WHEN \"$cfrate\" IS NULL OR \"$ccom\" IS NULL THEN 0\r\n        WHEN \"$cfrate\" > 0 AND \"$ccom\" = 0 THEN \"$cfrate\" * COUNT(DISTINCT meetings.id)\r\n        WHEN \"$ccom\" IS NOT NULL THEN\r\n            CASE\r\n                WHEN \"$ccomthresh\" = 0 THEN \"$ccom\" * COUNT(DISTINCT rez.id)\r\n                WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) = \"$ccomthresh\") THEN 0\r\n                WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) > \"$ccomthresh\") THEN (COUNT(DISTINCT rez.id) - \"$ccomthresh\") * \"$ccom\"\r\n                WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) < \"$ccomthresh\") THEN 0\r\n                ELSE\r\n                    'ERR'\r\n            END\r\n        ELSE NULL\r\n    END as Payment\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\n    AND (\r\n        \"$ccheck\" = \"Yes\"\r\n        OR (\"$ccheck\" = \"No\" AND rez.cancelled = 0)\r\n    )\r\nGROUP BY\r\n    meetings.staff_id,\r\n    loc.id\r\nLIMIT 10;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Payment per Coach",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "1",
+          "value": "1"
+        },
+        "description": "Coach Flat Rate",
+        "hide": 0,
+        "label": "Flat Rate",
+        "name": "cfrate",
+        "options": [
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          }
+        ],
+        "query": "1",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "0",
+          "value": "0"
+        },
+        "description": "Coach Commission Price",
+        "hide": 0,
+        "label": "Commission Price",
+        "name": "ccom",
+        "options": [
+          {
+            "selected": true,
+            "text": "0",
+            "value": "0"
+          }
+        ],
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "0",
+          "value": "0"
+        },
+        "description": "Coach Commission Threshold",
+        "hide": 0,
+        "label": "Commission Threshold",
+        "name": "ccomthresh",
+        "options": [
+          {
+            "selected": false,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "No",
+          "value": "No"
+        },
+        "description": "Include 'No Shows'?",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Include 'No Shows'?",
+        "multi": false,
+        "name": "ccheck",
+        "options": [
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          },
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          }
+        ],
+        "query": "Yes, No",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5y",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Temp",
+  "uid": "ObrSO9FIk",
+  "version": 41,
+  "weekStart": ""
+}
