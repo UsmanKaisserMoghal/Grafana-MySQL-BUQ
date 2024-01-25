@@ -47,15 +47,525 @@
                 "value": null
               }
             ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "inactive"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 12,
+          "refId": "A"
+        }
+      ],
+      "title": "Total Payment from Memberships",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Creation_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Expiration_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Final_Price": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Creation_Date": true,
+              "Email": true,
+              "Expiration_Date": true,
+              "Membership": true,
+              "Profile": true,
+              "Status": false
+            },
+            "indexByName": {
+              "Creation_Date": 4,
+              "Email": 2,
+              "Expiration_Date": 6,
+              "Final_Price (sum)": 5,
+              "Membership": 0,
+              "Profile": 1,
+              "Status": 3
+            },
+            "renameByName": {
+              "Final_Price (sum)": "Paid Ammount"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Paid Ammount": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 16,
+        "x": 8,
+        "y": 0
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 12,
+          "refId": "A"
+        }
+      ],
+      "title": "Payment Over Time",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Creation_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Expiration_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Final_Price": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Creation_Date": false,
+              "Email": true,
+              "Expiration_Date": true,
+              "Membership": true,
+              "Profile": true,
+              "Status": true
+            },
+            "indexByName": {
+              "Creation_Date": 4,
+              "Email": 2,
+              "Expiration_Date": 6,
+              "Final_Price (sum)": 5,
+              "Membership": 0,
+              "Profile": 1,
+              "Status": 3
+            },
+            "renameByName": {
+              "Final_Price (sum)": "Paid Ammount"
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "inactive"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "active"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 4
+      },
+      "id": 14,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "percent",
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 12,
+          "refId": "A"
+        }
+      ],
+      "title": "Payment based on Membership Status",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Creation_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Expiration_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Final_Price": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Creation_Date": true,
+              "Email": true,
+              "Expiration_Date": true,
+              "Membership": true,
+              "Profile": true,
+              "Status": false
+            },
+            "indexByName": {
+              "Creation_Date": 4,
+              "Email": 2,
+              "Expiration_Date": 6,
+              "Final_Price (sum)": 5,
+              "Membership": 0,
+              "Profile": 1,
+              "Status": 3
+            },
+            "renameByName": {
+              "Final_Price (sum)": "Paid Ammount"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Paid Ammount": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
           }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 8,
         "x": 0,
-        "y": 0
+        "y": 13
       },
       "id": 3,
       "options": {
@@ -83,15 +593,15 @@
           "refId": "A"
         }
       ],
-      "title": "Total Memberships",
+      "title": "Membersahips Availed",
       "transformations": [
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "Date",
-                "Email"
+                "Email",
+                "Creation_Date"
               ]
             }
           }
@@ -100,6 +610,12 @@
           "id": "groupBy",
           "options": {
             "fields": {
+              "Creation_Date": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
               "Date": {
                 "aggregations": [],
                 "operation": "groupby"
@@ -108,7 +624,7 @@
                 "aggregations": [
                   "count"
                 ],
-                "operation": "aggregate"
+                "operation": "groupby"
               }
             }
           }
@@ -129,11 +645,14 @@
           }
         },
         {
+          "id": "rowsToFields",
+          "options": {}
+        },
+        {
           "id": "calculateField",
           "options": {
             "mode": "reduceRow",
             "reduce": {
-              "include": [],
               "reducer": "sum"
             },
             "replaceFields": true
@@ -150,7 +669,37 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -159,6 +708,10 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -166,25 +719,23 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
-        "w": 8,
+        "h": 10,
+        "w": 16,
         "x": 8,
-        "y": 0
+        "y": 13
       },
-      "id": 6,
+      "id": 11,
       "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "textMode": "auto"
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
       "pluginVersion": "9.4.7",
       "targets": [
@@ -197,145 +748,43 @@
           "refId": "A"
         }
       ],
-      "title": "Total Credits",
+      "title": "Active Memberships over Time",
       "transformations": [
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "Date",
-                "Credits"
+                "Email",
+                "Status",
+                "Creation_Date"
               ]
             }
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "notEqual",
+                  "options": {
+                    "value": "active"
+                  }
+                },
+                "fieldName": "Status"
+              }
+            ],
+            "match": "any",
+            "type": "exclude"
           }
         },
         {
           "id": "groupBy",
           "options": {
             "fields": {
-              "Credits": {
-                "aggregations": [
-                  "sum"
-                ],
-                "operation": "aggregate"
-              },
-              "Date": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "Email": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              }
-            }
-          }
-        },
-        {
-          "id": "rowsToFields",
-          "options": {
-            "mappings": [
-              {
-                "fieldName": "Date",
-                "handlerKey": "field.name"
-              },
-              {
-                "fieldName": "Credits (sum)",
-                "handlerKey": "field.value"
-              }
-            ]
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [],
-              "reducer": "sum"
-            },
-            "replaceFields": true
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "-- Dashboard --"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 8,
-        "x": 16,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.4.7",
-      "targets": [
-        {
-          "datasource": {
-            "type": "datasource",
-            "uid": "-- Dashboard --"
-          },
-          "panelId": 2,
-          "refId": "A"
-        }
-      ],
-      "title": "Total Paid",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Date",
-                "Price"
-              ]
-            }
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Date": {
+              "Creation_Date": {
                 "aggregations": [],
                 "operation": "groupby"
               },
@@ -345,43 +794,24 @@
                 ],
                 "operation": "aggregate"
               },
-              "Price": {
-                "aggregations": [
-                  "sum"
-                ],
-                "operation": "aggregate"
+              "Status": {
+                "aggregations": []
               }
             }
           }
         },
         {
-          "id": "rowsToFields",
+          "id": "organize",
           "options": {
-            "mappings": [
-              {
-                "fieldName": "Date",
-                "handlerKey": "field.name"
-              },
-              {
-                "fieldName": "Price (sum)",
-                "handlerKey": "field.value"
-              }
-            ]
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [],
-              "reducer": "sum"
-            },
-            "replaceFields": true
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Email (count)": "Memberships"
+            }
           }
         }
       ],
-      "type": "stat"
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -429,7 +859,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "semi-dark-orange",
+                  "fixedColor": "red",
                   "mode": "fixed"
                 }
               }
@@ -441,7 +871,7 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 3
+        "y": 17
       },
       "id": 5,
       "options": {
@@ -481,7 +911,7 @@
           "refId": "A"
         }
       ],
-      "title": "All Memberships Status",
+      "title": "Status of Users With Memberhsips",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -526,295 +956,37 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
-            }
-          },
-          "decimals": 2,
-          "mappings": [],
-          "unit": "none"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "active"
             },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "inactive"
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
             },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 8,
-        "y": 3
-      },
-      "id": 7,
-      "options": {
-        "displayLabels": [
-          "percent"
-        ],
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "values": [
-            "value",
-            "percent"
-          ]
-        },
-        "pieType": "donut",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.4.7",
-      "targets": [
-        {
-          "datasource": {
-            "type": "datasource",
-            "uid": "-- Dashboard --"
-          },
-          "panelId": 2,
-          "refId": "A"
-        }
-      ],
-      "title": "All Credits Status",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Status",
-                "Credits"
-              ]
-            }
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Credits": {
-                "aggregations": [
-                  "sum"
-                ],
-                "operation": "aggregate"
-              },
-              "Email": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "Status": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        },
-        {
-          "id": "rowsToFields",
-          "options": {}
-        }
-      ],
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "-- Dashboard --"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "decimals": 2,
-          "mappings": [],
-          "unit": "currencyUSD"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "active"
+            "showPoints": "always",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
             },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "inactive"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 16,
-        "y": 3
-      },
-      "id": 8,
-      "options": {
-        "displayLabels": [
-          "percent"
-        ],
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "values": [
-            "value",
-            "percent"
-          ]
-        },
-        "pieType": "donut",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.4.7",
-      "targets": [
-        {
-          "datasource": {
-            "type": "datasource",
-            "uid": "-- Dashboard --"
-          },
-          "panelId": 2,
-          "refId": "A"
-        }
-      ],
-      "title": "All Paid Status",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Status",
-                "Price"
-              ]
+            "thresholdsStyle": {
+              "mode": "off"
             }
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Credits": {
-                "aggregations": [
-                  "sum"
-                ],
-                "operation": "aggregate"
-              },
-              "Email": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "Price": {
-                "aggregations": [
-                  "sum"
-                ],
-                "operation": "aggregate"
-              },
-              "Status": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        },
-        {
-          "id": "rowsToFields",
-          "options": {}
-        }
-      ],
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "vjMPI064z"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
           },
           "mappings": [],
           "thresholds": {
@@ -823,85 +995,106 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Payment"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "currencyUSD"
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 12
+        "h": 11,
+        "w": 16,
+        "x": 8,
+        "y": 23
       },
       "id": 10,
       "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "textMode": "auto"
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
       "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
-            "type": "mysql",
-            "uid": "vjMPI064z"
+            "type": "datasource",
+            "uid": "-- Dashboard --"
           },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "select count(id) as Packages\r\nfrom dev.combos;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
+          "panelId": 2,
+          "refId": "A"
+        }
+      ],
+      "title": "Membersahips Availed over Time",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Email",
+                "Creation_Date",
+                "Expiration_Date"
+              ]
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Creation_Date": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "groupby"
+              },
+              "Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Email": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "groupby"
+              },
+              "Expiration_Date": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
               }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
           }
         }
       ],
-      "title": "Total Packages",
-      "transformations": [],
-      "type": "stat"
+      "type": "timeseries"
     },
     {
       "datasource": {
-        "type": "datasource",
-        "uid": "-- Dashboard --"
+        "type": "mysql",
+        "uid": "vjMPI064z"
       },
       "fieldConfig": {
         "defaults": {
@@ -929,16 +1122,46 @@
                 "value": "currencyUSD"
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "active"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "inactive"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
       "gridPos": {
-        "h": 9,
-        "w": 10,
-        "x": 4,
-        "y": 12
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 26
       },
-      "id": 11,
+      "id": 9,
       "options": {
         "displayLabels": [
           "percent"
@@ -958,141 +1181,6 @@
             "lastNotNull"
           ],
           "fields": "",
-          "values": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.4.7",
-      "targets": [
-        {
-          "datasource": {
-            "type": "datasource",
-            "uid": "-- Dashboard --"
-          },
-          "panelId": 12,
-          "refId": "A"
-        }
-      ],
-      "title": "Packages Statuses",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "id",
-                "Status"
-              ]
-            }
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Status": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "id": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "status": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        }
-      ],
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "-- Dashboard --"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "decimals": 2,
-          "mappings": [],
-          "unit": "currencyUSD"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "active"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "inactive"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 10,
-        "x": 14,
-        "y": 12
-      },
-      "id": 14,
-      "options": {
-        "displayLabels": [
-          "percent"
-        ],
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "values": [
-            "value",
-            "percent"
-          ]
-        },
-        "pieType": "donut",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
           "values": false
         },
         "tooltip": {
@@ -1103,56 +1191,56 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
+          "dataset": "dev",
           "datasource": {
-            "type": "datasource",
-            "uid": "-- Dashboard --"
+            "type": "mysql",
+            "uid": "vjMPI064z"
           },
-          "panelId": 2,
-          "refId": "A"
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT id, name, price, status\r\nFROM\r\n    dev.memberships",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
         }
       ],
-      "title": "Price per Package",
+      "title": "Total Memberships",
       "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Status",
-                "Credits",
-                "Combo",
-                "Price"
-              ]
-            }
-          }
-        },
         {
           "id": "groupBy",
           "options": {
             "fields": {
-              "Combo": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "Credits": {
-                "aggregations": [
-                  "sum"
-                ]
-              },
-              "Email": {
+              "name": {
                 "aggregations": [
                   "count"
                 ],
                 "operation": "aggregate"
               },
-              "Price": {
-                "aggregations": [
-                  "sum"
-                ],
-                "operation": "aggregate"
-              },
-              "Status": {
-                "aggregations": []
+              "status": {
+                "aggregations": [],
+                "operation": "groupby"
               }
             }
           }
@@ -1172,11 +1260,9 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "green",
-            "mode": "fixed"
+            "mode": "thresholds"
           },
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1191,20 +1277,22 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
+        "w": 8,
         "x": 0,
-        "y": 16
+        "y": 34
       },
       "id": 16,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
-        "orientation": "horizontal",
+        "orientation": "auto",
         "reduceOptions": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
-          "values": true
+          "values": false
         },
         "textMode": "auto"
       },
@@ -1219,15 +1307,19 @@
           "refId": "A"
         }
       ],
-      "title": "Active Packages",
+      "title": "Total Credits from Memberships",
       "transformations": [
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "Combo",
-                "Date"
+                "Item_Credits",
+                "Email",
+                "Profile",
+                "Membership",
+                "Creation_Date",
+                "Location"
               ]
             }
           }
@@ -1236,24 +1328,46 @@
           "id": "groupBy",
           "options": {
             "fields": {
-              "Combo": {
-                "aggregations": [
-                  "distinctCount"
-                ],
+              "Creation_Date": {
+                "aggregations": [],
                 "operation": "groupby"
               },
-              "Date": {
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Item_Credits": {
                 "aggregations": [
-                  "distinctCount"
+                  "sum"
                 ],
                 "operation": "aggregate"
               },
-              "Email": {
-                "aggregations": [
-                  "distinctCount"
-                ]
+              "Location": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
               }
             }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Email": true,
+              "Location": true,
+              "Membership": true,
+              "Profile": true
+            },
+            "indexByName": {},
+            "renameByName": {}
           }
         },
         {
@@ -1261,7 +1375,7 @@
           "options": {
             "mappings": [
               {
-                "fieldName": "Combo",
+                "fieldName": "Creation_Date",
                 "handlerKey": "field.name"
               }
             ]
@@ -1272,7 +1386,7 @@
           "options": {
             "mode": "reduceRow",
             "reduce": {
-              "reducer": "count"
+              "reducer": "sum"
             },
             "replaceFields": true
           }
@@ -1288,16 +1402,49 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-RdYlGr"
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -1305,23 +1452,23 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 14,
-        "x": 0,
-        "y": 21
+        "h": 14,
+        "w": 16,
+        "x": 8,
+        "y": 34
       },
-      "id": 15,
+      "id": 19,
       "options": {
-        "displayMode": "lcd",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "orientation": "horizontal",
-        "reduceOptions": {
+        "legend": {
           "calcs": [],
-          "fields": "",
-          "values": true
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showUnfilled": true
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
       "pluginVersion": "9.4.7",
       "targets": [
@@ -1334,15 +1481,20 @@
           "refId": "A"
         }
       ],
-      "title": "Members per Package",
+      "title": "Credits from Memberships over Time",
       "transformations": [
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "Combo",
-                "Date"
+                "Membership",
+                "Profile",
+                "Email",
+                "Location",
+                "Item_Credits",
+                "Creation_Date",
+                "Status"
               ]
             }
           }
@@ -1351,28 +1503,58 @@
           "id": "groupBy",
           "options": {
             "fields": {
-              "Combo": {
-                "aggregations": [
-                  "distinctCount"
-                ],
+              "Creation_Date": {
+                "aggregations": [],
                 "operation": "groupby"
               },
-              "Date": {
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Item_Credits": {
                 "aggregations": [
-                  "distinctCount"
+                  "sum"
                 ],
                 "operation": "aggregate"
               },
-              "Email": {
-                "aggregations": [
-                  "distinctCount"
-                ]
+              "Location": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
               }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Creation_Date": false,
+              "Email": true,
+              "Location": true,
+              "Membership": true,
+              "Profile": true,
+              "Status": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "Item_Credits (sum)": "Credits"
             }
           }
         }
       ],
-      "type": "bargauge"
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -1391,11 +1573,24 @@
               "viz": false
             }
           },
-          "decimals": 2,
-          "mappings": [],
-          "unit": "none"
+          "mappings": []
         },
         "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "inactive"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
           {
             "matcher": {
               "id": "byName",
@@ -1410,31 +1605,16 @@
                 }
               }
             ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "inactive"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
           }
         ]
       },
       "gridPos": {
-        "h": 9,
-        "w": 10,
-        "x": 14,
-        "y": 21
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 38
       },
-      "id": 13,
+      "id": 17,
       "options": {
         "displayLabels": [
           "percent"
@@ -1444,8 +1624,8 @@
           "placement": "right",
           "showLegend": true,
           "values": [
-            "value",
-            "percent"
+            "percent",
+            "value"
           ]
         },
         "pieType": "donut",
@@ -1472,17 +1652,20 @@
           "refId": "A"
         }
       ],
-      "title": "Credits per Package",
+      "title": "Credits Details based on Membership Status",
       "transformations": [
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "Status",
-                "Credits",
-                "Combo",
-                "Price"
+                "Membership",
+                "Profile",
+                "Email",
+                "Location",
+                "Item_Credits",
+                "Creation_Date",
+                "Status"
               ]
             }
           }
@@ -1491,24 +1674,66 @@
           "id": "groupBy",
           "options": {
             "fields": {
-              "Combo": {
+              "Creation_Date": {
                 "aggregations": [],
                 "operation": "groupby"
               },
-              "Credits": {
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Item_Credits": {
                 "aggregations": [
                   "sum"
                 ],
                 "operation": "aggregate"
               },
-              "Email": {
+              "Location": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Creation_Date": true,
+              "Email": true,
+              "Location": true,
+              "Membership": true,
+              "Profile": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Item_Credits (sum)": {
                 "aggregations": [
-                  "count"
+                  "sum"
                 ],
                 "operation": "aggregate"
               },
               "Status": {
-                "aggregations": []
+                "aggregations": [],
+                "operation": "groupby"
               }
             }
           }
@@ -1519,6 +1744,167 @@
         }
       ],
       "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "inactive"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "id": 18,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 2,
+          "refId": "A"
+        }
+      ],
+      "title": "Credits Details",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Membership",
+                "Profile",
+                "Email",
+                "Location",
+                "Status",
+                "Item_Credits",
+                "Creation_Date",
+                "Expiration_Date"
+              ]
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Creation_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Expiration_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Item_Credits": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Location": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Creation_Date": 7,
+              "Email": 2,
+              "Expiration_Date": 6,
+              "Item_Credits (sum)": 5,
+              "Location": 3,
+              "Membership": 0,
+              "Profile": 1,
+              "Status": 4
+            },
+            "renameByName": {
+              "Item_Credits (sum)": "Credits"
+            }
+          }
+        }
+      ],
+      "type": "table"
     },
     {
       "datasource": {
@@ -1551,7 +1937,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": [
           {
@@ -1565,62 +1952,14 @@
                 "value": "currencyUSD"
               }
             ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "id"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 77
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Credits"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 94
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Price"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 128
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Status"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 137
-              }
-            ]
           }
         ]
       },
       "gridPos": {
-        "h": 9,
+        "h": 11,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 58
       },
       "id": 12,
       "options": {
@@ -1647,7 +1986,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT combos.id, combos.name as Name, combos.credits as Credits, combos.price as Price, combos.status as Status, combos.created_at as Date\r\nFROM\r\n    dev.combos as combos;",
+          "rawSql": "SELECT memberships.name as Membership, uprofiles.first_name as Profile, users.name as User_Name, uprofiles.email as Email, memberships.status as Status, memberships.price as Original_Price, purchases.subtotal as Final_Price, memberships.created_at as Creation_Date, umemberships.expiration_date as Expiration_Date\r\nFROM\r\n    dev.memberships as memberships\r\nJOIN\r\n    dev.users_memberships as umemberships ON memberships.id = umemberships.memberships_id\r\nJOIN\r\n    dev.user_profiles as uprofiles ON umemberships.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.users as users ON users.id = uprofiles.users_id\r\nJOIN\r\n    dev.purchases as purchases ON purchases.users_id = users.id\r\nWHERE\r\n    memberships.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1674,8 +2013,67 @@
           "table": "staff"
         }
       ],
-      "title": "Packages Details",
-      "transformations": [],
+      "title": "Payment Details",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Creation_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Email": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Expiration_Date": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Final_Price": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Membership": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Profile": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Creation_Date": true,
+              "Membership": true
+            },
+            "indexByName": {
+              "Creation_Date": 4,
+              "Email": 2,
+              "Expiration_Date": 6,
+              "Final_Price (sum)": 5,
+              "Membership": 0,
+              "Profile": 1,
+              "Status": 3
+            },
+            "renameByName": {
+              "Final_Price (sum)": "Paid Ammount"
+            }
+          }
+        }
+      ],
       "type": "table"
     },
     {
@@ -1730,7 +2128,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 69
       },
       "id": 2,
       "options": {
@@ -1757,7 +2155,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT memberships.name as Membership, uprofiles.first_name as Profile, users.name as User, uprofiles.email as Email, locations.name as Location, memberships.status as Status, combos.name as Combo, memberships.price as Price, combos.credits as Credits, combos.price as Credits_price, memberships.created_at as Date\r\nFROM\r\n    dev.memberships as memberships\r\nJOIN\r\n    dev.users_memberships as umemberships ON memberships.id = umemberships.memberships_id\r\nJOIN\r\n    dev.user_profiles as uprofiles ON umemberships.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.users_credits as ucredits ON ucredits.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.users as users ON users.id = uprofiles.users_id\r\nJOIN\r\n    dev.purchase_items as pitems ON pitems.users_id = users.id\r\nJOIN\r\n    dev.locations as locations ON locations.id = pitems.locations_id\r\nJOIN\r\n    dev.credits as credits ON credits.id = ucredits.credits_id\r\nJOIN\r\n    dev.combos as combos ON combos.credits_id = credits.id\r\nWHERE\r\n    memberships.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')",
+          "rawSql": "SELECT memberships.name as Membership, uprofiles.first_name as Profile, users.name as User_Name, uprofiles.email as Email, locations.name as Location, memberships.status as Status, memberships.price as Original_Price, pitems.item_price_final as Item_Price, pitems.item_credits as Item_Credits, credits.name as Credit_Name, purchases.subtotal as Final_Price, memberships.created_at as Creation_Date, umemberships.expiration_date as Expiration_Date\r\nFROM\r\n    dev.memberships as memberships\r\nJOIN\r\n    dev.users_memberships as umemberships ON memberships.id = umemberships.memberships_id\r\nJOIN\r\n    dev.user_profiles as uprofiles ON umemberships.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.users as users ON users.id = uprofiles.users_id\r\nJOIN\r\n    dev.membership_credits as mcredits ON mcredits.memberships_id = memberships.id\r\nJOIN\r\n    dev.credits as credits ON credits.id = mcredits.credits_id\r\nJOIN\r\n    dev.purchase_items as pitems ON pitems.users_id = users.id\r\nJOIN\r\n    dev.purchases as purchases ON purchases.id = pitems.purchases_id\r\nJOIN\r\n    dev.locations as locations ON locations.id = pitems.locations_id\r\n\r\nWHERE\r\n    memberships.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1804,6 +2202,6 @@
   "timezone": "",
   "title": "Active Memberships",
   "uid": "xu6sNc5Iz",
-  "version": 15,
+  "version": 27,
   "weekStart": ""
 }
