@@ -24,14 +24,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 29,
+  "id": 67,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -75,15 +75,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT count(meetings.id) as Sessions\r\nFROM dev.staff as staff JOIN dev.meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere staff.job=\"Coach\" AND meetings.created_at  and CONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00')\r\n",
+          "rawSql": "SELECT count(meetings.id) as Sessions\r\nFROM staff as staff JOIN meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere meetings.deleted_at IS NULL  and \r\nCONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and \r\nCONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00') AND meetings.brands_id = $brand_id\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -116,7 +116,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -160,15 +160,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT count(Distinct staff.id) as Sessions\r\nFROM dev.staff as staff JOIN dev.meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere staff.job=\"Coach\" AND meetings.created_at  and CONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00')\r\n",
+          "rawSql": "SELECT count(Distinct staff.id) as Sessions\r\nFROM staff as staff JOIN meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere meetings.deleted_at IS NULL  and \r\nCONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and \r\nCONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00') AND meetings.brands_id = $brand_id\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -201,7 +201,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -245,15 +245,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT count(staff.id)\r\nFROM dev.staff as staff\r\nwhere staff.job=\"Coach\"",
+          "rawSql": "SELECT count(staff.id)\r\nFROM staff as staff\r\nwhere staff.companies_id=(select companies_id from brands where brands.id = $brand_id )",
           "refId": "A",
           "sql": {
             "columns": [
@@ -286,7 +286,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -328,11 +328,12 @@
       "options": {
         "footer": {
           "countRows": false,
+          "enablePagination": true,
           "fields": "",
           "reducer": [
             "sum"
           ],
-          "show": false
+          "show": true
         },
         "showHeader": true,
         "sortBy": []
@@ -340,15 +341,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT staff.id as CoachID, staff.name as Name, count(staff.id) as Sessions\r\nFROM dev.staff as staff JOIN dev.meetings as meetings \r\non staff.id=meetings.staff_id\r\nwhere staff.job=\"Coach\" AND meetings.created_at  and CONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00')\r\ngroup by staff.id\r\n",
+          "rawSql": "SELECT staff.name as Name, count(staff.id) as Sessions\r\nFROM staff as staff JOIN (SELECT * FROM meetings ) as meetings \r\non staff.id = meetings.staff_id\r\nwhere meetings.deleted_at IS NULL  and \r\nCONVERT(meetings.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') and \r\nCONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00') AND meetings.brands_id = $brand_id\r\ngroup by staff.id, meetings.brands_id\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -466,7 +467,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -512,7 +513,7 @@
         ]
       },
       "gridPos": {
-        "h": 9,
+        "h": 11,
         "w": 24,
         "x": 0,
         "y": 14
@@ -521,6 +522,7 @@
       "options": {
         "footer": {
           "countRows": false,
+          "enablePagination": true,
           "fields": "",
           "reducer": [
             "sum"
@@ -533,15 +535,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    staff.name as Coach,\r\n    services.name as Service,\r\n    loc.name as Location,\r\n    COUNT(DISTINCT rez.users_id) as Users,\r\n    meetings.capacity as Capacity,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.services as services ON meetings.services_id = services.id\r\nJOIN\r\n    dev.locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    meetings.capacity,\r\n    staff.name,\r\n    services.name,\r\n    loc.name\r\n",
+          "rawSql": "SELECT\r\n    DATE_FORMAT(meetings.start_date,'%D %b %Y %H:%i') as \"Start Date\",\r\n    staff.name as Coach,\r\n    services.name as Service,\r\n    loc.name as Location,\r\n    COUNT(DISTINCT rez.users_id) as Users,\r\n    meetings.capacity as Capacity,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    meetings as meetings\r\nJOIN\r\n    reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    services as services ON meetings.services_id = services.id\r\nJOIN\r\n    locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND rez.deleted_at IS NULL\r\n    AND meetings.brands_id=$brand_id \r\nGROUP BY\r\n    meetings.id,\r\n    meetings.capacity,\r\n    staff.name,\r\n    services.name,\r\n    loc.name,\r\n    meetings.brands_id\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -574,7 +576,116 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MeetingID"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 15,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "buq",
+          "datasource": {
+            "type": "mysql",
+            "uid": "fQK8bM1Mz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    staff.name as Coach,\r\n    services.name as Service,\r\n    loc.name as Location,\r\n    rez.users_id,\r\n    meetings.capacity\r\nFROM\r\n    meetings as meetings\r\nJOIN\r\n    reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    services as services ON meetings.services_id = services.id\r\nJOIN\r\n    staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND rez.deleted_at IS NULL\r\n    AND meetings.brands_id=$brand_id",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "name",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "staff"
+        }
+      ],
+      "title": "Percentage Filled per Class (Coaches)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -623,12 +734,13 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 23
+        "y": 33
       },
       "id": 8,
       "options": {
         "footer": {
           "countRows": false,
+          "enablePagination": true,
           "fields": "",
           "reducer": [
             "sum"
@@ -641,15 +753,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    staff.name as Coach,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    staff.name",
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    staff.name as Coach,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    meetings as meetings\r\nJOIN\r\n    reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    staff as staff ON meetings.staff_id = staff.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND rez.deleted_at IS NULL\r\n    AND meetings.brands_id=$brand_id\r\nGROUP BY\r\n    meetings.id,\r\n    staff.name",
           "refId": "A",
           "sql": {
             "columns": [
@@ -682,7 +794,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -731,12 +843,13 @@
         "h": 9,
         "w": 8,
         "x": 8,
-        "y": 23
+        "y": 33
       },
       "id": 10,
       "options": {
         "footer": {
           "countRows": false,
+          "enablePagination": true,
           "fields": "",
           "reducer": [
             "sum"
@@ -749,15 +862,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    services.name as Service,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.services as services ON meetings.services_id = services.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    services.name\r\n",
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    services.name as Service,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    meetings as meetings\r\nJOIN\r\n    reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    services as services ON meetings.services_id = services.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND rez.deleted_at IS NULL\r\n    AND meetings.brands_id = $brand_id \r\nGROUP BY\r\n    meetings.id,\r\n    services.name\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -790,7 +903,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -839,12 +952,13 @@
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 23
+        "y": 33
       },
       "id": 11,
       "options": {
         "footer": {
           "countRows": false,
+          "enablePagination": true,
           "fields": "",
           "reducer": [
             "sum"
@@ -862,15 +976,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    loc.name as Location,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\nGROUP BY\r\n    meetings.id,\r\n    loc.name\r\n",
+          "rawSql": "SELECT\r\n    meetings.id as MeetingID,\r\n    loc.name as Location,\r\n    (COUNT(DISTINCT rez.users_id) / meetings.capacity) * 100 as Percentage\r\nFROM\r\n    meetings as meetings\r\nJOIN\r\n    reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND rez.deleted_at IS NULL\r\n    AND meetings.brands_id = $brand_id \r\nGROUP BY\r\n    meetings.id,\r\n    loc.name\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -917,7 +1031,8 @@
               "viz": false
             }
           },
-          "mappings": []
+          "mappings": [],
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
@@ -925,7 +1040,7 @@
         "h": 11,
         "w": 8,
         "x": 0,
-        "y": 32
+        "y": 42
       },
       "id": 7,
       "options": {
@@ -1005,7 +1120,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "vjMPI064z"
+        "uid": "fQK8bM1Mz"
       },
       "fieldConfig": {
         "defaults": {
@@ -1035,13 +1150,26 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Payment"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 11,
         "w": 16,
         "x": 8,
-        "y": 32
+        "y": 42
       },
       "id": 14,
       "options": {
@@ -1060,15 +1188,15 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
-          "dataset": "dev",
+          "dataset": "buq",
           "datasource": {
             "type": "mysql",
-            "uid": "vjMPI064z"
+            "uid": "fQK8bM1Mz"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n    loc.name as Location,\r\n    staff.name as Coach,\r\n    COUNT(DISTINCT meetings.id) as Classes,\r\n    COUNT(DISTINCT rez.users_id) as Attendance,\r\n    COUNT(DISTINCT rez.id) as Reservations,\r\n    CASE\r\n        WHEN \"$cfrate\" < 0 OR \"$ccom\" < 0 THEN 'ERR'\r\n        WHEN \"$cfrate\" IS NULL OR \"$ccom\" IS NULL THEN 0\r\n        WHEN \"$cfrate\" > 0 AND \"$ccom\" = 0 THEN \"$cfrate\" * COUNT(DISTINCT meetings.id)\r\n        WHEN \"$ccom\" IS NOT NULL THEN\r\n            CASE\r\n                WHEN \"$ccomthresh\" = 0 THEN \"$ccom\" * COUNT(DISTINCT rez.id)\r\n                WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) = \"$ccomthresh\") THEN 0\r\n                WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) > \"$ccomthresh\") THEN (COUNT(DISTINCT rez.id) - \"$ccomthresh\") * \"$ccom\"\r\n                WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) < \"$ccomthresh\") THEN 0\r\n                ELSE\r\n                    'ERR'\r\n            END\r\n        ELSE NULL\r\n    END as Payment\r\nFROM\r\n    dev.meetings as meetings\r\nJOIN\r\n    dev.reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    dev.staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    dev.locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND staff.job = \"Coach\"\r\n    AND (\r\n        \"$ccheck\" = \"Yes\"\r\n        OR (\"$ccheck\" = \"No\" AND rez.cancelled = 0)\r\n    )\r\nGROUP BY\r\n    meetings.staff_id,\r\n    loc.id\r\nLIMIT 10;\r\n",
+          "rawSql": "SELECT\r\n    loc.name as Location,\r\n    staff.name as Coach,\r\n    COUNT(DISTINCT meetings.id) as Classes,\r\n    COUNT(DISTINCT rez.users_id) as Attendance,\r\n    COUNT(DISTINCT rez.id) as Reservations,\r\n    CASE\r\n        WHEN staff.flatRate IS NULL OR staff.commissionPrice IS NULL OR staff.commissionThreshold IS NULL THEN\r\n            CASE\r\n                WHEN \"$cfrate\" < 0 OR \"$ccom\" < 0 THEN 'ERR'\r\n                WHEN \"$cfrate\" IS NULL OR \"$ccom\" IS NULL THEN 0\r\n                WHEN \"$cfrate\" > 0 AND \"$ccom\" = 0 THEN \"$cfrate\" * COUNT(DISTINCT meetings.id)\r\n                WHEN \"$cfrate\" REGEXP '^[0-9]+$' = 0 OR \"$ccom\" REGEXP '^[0-9]+$' = 0 OR \"$ccomthresh\" REGEXP '^[0-9]+$' = 0 THEN 'ERR'\r\n                WHEN \"$ccom\" > 0 THEN\r\n                    CASE\r\n                        WHEN \"$ccomthresh\" = 0 THEN (\"$ccom\" * COUNT(DISTINCT rez.id)) + (\"$cfrate\" * COUNT(DISTINCT meetings.id))\r\n                        WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) = \"$ccomthresh\") THEN \"$cfrate\" * COUNT(DISTINCT meetings.id)\r\n                        WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) > \"$ccomthresh\") THEN ((COUNT(DISTINCT rez.id) - \"$ccomthresh\") * \"$ccom\") + (\"$cfrate\" * COUNT(DISTINCT meetings.id))\r\n                        WHEN (\"$ccomthresh\" > 0 AND COUNT(DISTINCT rez.id) < \"$ccomthresh\") THEN \"$cfrate\" * COUNT(DISTINCT meetings.id)\r\n                        ELSE 'ERR'\r\n                    END\r\n                ELSE NULL\r\n            END\r\n        ELSE\r\n            CASE\r\n                WHEN staff.flatRate < 0 OR staff.commissionPrice < 0 THEN 'ERR'\r\n                WHEN staff.flatRate IS NULL OR staff.commissionPrice IS NULL THEN 0\r\n                WHEN staff.flatRate > 0 AND staff.commissionPrice = 0 THEN staff.flatRate * COUNT(DISTINCT meetings.id)\r\n                WHEN staff.flatRate REGEXP '^[0-9]+$' = 0 OR staff.commissionPrice REGEXP '^[0-9]+$' = 0 OR staff.commissionThreshold REGEXP '^[0-9]+$' = 0 THEN 'ERR'\r\n                WHEN staff.commissionPrice > 0 THEN\r\n                    CASE\r\n                        WHEN staff.commissionThreshold = 0 THEN (staff.commissionPrice * COUNT(DISTINCT rez.id)) + (staff.flatRate * COUNT(DISTINCT meetings.id))\r\n                        WHEN (staff.commissionThreshold > 0 AND COUNT(DISTINCT rez.id) = staff.commissionThreshold) THEN staff.flatRate * COUNT(DISTINCT meetings.id)\r\n                        WHEN (staff.commissionThreshold > 0 AND COUNT(DISTINCT rez.id) > staff.commissionThreshold) THEN ((COUNT(DISTINCT rez.id) - staff.commissionThreshold) * staff.commissionPrice) + (staff.flatRate * COUNT(DISTINCT meetings.id))\r\n                        WHEN (staff.commissionThreshold > 0 AND COUNT(DISTINCT rez.id) < staff.commissionThreshold) THEN staff.flatRate * COUNT(DISTINCT meetings.id)\r\n                        ELSE 'ERR'\r\n                    END\r\n                ELSE NULL\r\n            END\r\n    END as Payment\r\nFROM\r\n    meetings as meetings\r\nJOIN\r\n    reservations as rez ON meetings.id = rez.meetings_id\r\nJOIN\r\n    staff as staff ON meetings.staff_id = staff.id\r\nJOIN\r\n    locations as loc ON meetings.locations_id = loc.id\r\nWHERE\r\n    meetings.brands_id = $brand_id \r\n    AND rez.deleted_at IS NULL\r\n    AND rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    AND (\r\n        (CASE WHEN staff.include_noShows IS NULL THEN \"$ccheck\" ELSE staff.include_noShows END) = 1\r\n        OR ((CASE WHEN staff.include_noShows IS NULL THEN \"$ccheck\" ELSE staff.include_noShows END) = 0 AND rez.cancelled = 0)\r\n    )\r\nGROUP BY\r\n    meetings.staff_id,\r\n    loc.id\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1109,8 +1237,8 @@
       {
         "current": {
           "selected": false,
-          "text": "1",
-          "value": "1"
+          "text": "0",
+          "value": "0"
         },
         "description": "Coach Flat Rate",
         "hide": 0,
@@ -1119,11 +1247,11 @@
         "options": [
           {
             "selected": true,
-            "text": "1",
-            "value": "1"
+            "text": "0",
+            "value": "0"
           }
         ],
-        "query": "1",
+        "query": "0",
         "skipUrlSync": false,
         "type": "textbox"
       },
@@ -1160,9 +1288,9 @@
         "name": "ccomthresh",
         "options": [
           {
-            "selected": false,
-            "text": "",
-            "value": ""
+            "selected": true,
+            "text": "0",
+            "value": "0"
           }
         ],
         "query": "0",
@@ -1183,31 +1311,55 @@
         "name": "ccheck",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "Yes",
-            "value": "Yes"
+            "value": "1"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "No",
-            "value": "No"
+            "value": "0"
           }
         ],
-        "query": "Yes, No",
+        "query": "Yes : 1 , No : 0",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Fitspin",
+          "value": "86"
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "fQK8bM1Mz"
+        },
+        "definition": "SELECT id AS __value, name AS __text FROM brands",
+        "hide": 0,
+        "includeAll": false,
+        "label": "brand",
+        "multi": false,
+        "name": "brand_id",
+        "options": [],
+        "query": "SELECT id AS __value, name AS __text FROM brands",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-5y",
+    "from": "now-30d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Temp",
-  "uid": "ObrSO9FIk",
-  "version": 41,
+  "title": "Instructores Payroll NEW",
+  "uid": "ObrS19FIk",
+  "version": 5,
   "weekStart": ""
 }

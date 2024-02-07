@@ -8,12 +8,13 @@ SELECT
         WHEN "$cfrate" < 0 OR "$ccom" < 0 THEN 'ERR'
         WHEN "$cfrate" IS NULL OR "$ccom" IS NULL THEN 0
         WHEN "$cfrate" > 0 AND "$ccom" = 0 THEN "$cfrate" * COUNT(DISTINCT meetings.id)
-        WHEN "$ccom" IS NOT NULL THEN
+        WHEN "$cfrate" REGEXP '^[0-9]+$' = 0 OR "$ccom" REGEXP '^[0-9]+$' = 0 OR "$ccomthresh" REGEXP '^[0-9]+$' = 0 THEN 'ERR'
+        WHEN "$ccom" > 0 THEN
             CASE
-                WHEN "$ccomthresh" = 0 THEN "$ccom" * COUNT(DISTINCT rez.id)
-                WHEN ("$ccomthresh" > 0 AND COUNT(DISTINCT rez.id) = "$ccomthresh") THEN 0
-                WHEN ("$ccomthresh" > 0 AND COUNT(DISTINCT rez.id) > "$ccomthresh") THEN (COUNT(DISTINCT rez.id) - "$ccomthresh") * "$ccom"
-                WHEN ("$ccomthresh" > 0 AND COUNT(DISTINCT rez.id) < "$ccomthresh") THEN 0
+                WHEN "$ccomthresh" = 0 THEN ("$ccom" * COUNT(DISTINCT rez.id)) + ("$cfrate" * COUNT(DISTINCT meetings.id))
+                WHEN ("$ccomthresh" > 0 AND COUNT(DISTINCT rez.id) = "$ccomthresh") THEN "$cfrate" * COUNT(DISTINCT meetings.id)
+                WHEN ("$ccomthresh" > 0 AND COUNT(DISTINCT rez.id) > "$ccomthresh") THEN ((COUNT(DISTINCT rez.id) - "$ccomthresh") * "$ccom") + ("$cfrate" * COUNT(DISTINCT meetings.id))
+                WHEN ("$ccomthresh" > 0 AND COUNT(DISTINCT rez.id) < "$ccomthresh") THEN "$cfrate" * COUNT(DISTINCT meetings.id)
                 ELSE
                     'ERR'
             END
@@ -30,7 +31,7 @@ JOIN
 WHERE
     rez.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')
                       AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')
-    AND staff.job = "Coach"
+    AND meetings.brands_id = $brand_id 
     AND (
         "$ccheck" = "Yes"
         OR ("$ccheck" = "No" AND rez.cancelled = 0)
