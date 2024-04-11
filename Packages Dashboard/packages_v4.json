@@ -1,0 +1,2525 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 31,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 0,
+          "y": 0
+        },
+        "id": 18,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Total Purchases",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": true
+            }
+          }
+        ],
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 4,
+          "y": 0
+        },
+        "id": 19,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Total Average Purchases Value",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": false,
+                "Total_Credits": true,
+                "Total_Credits_Price": true,
+                "Total_Purchases": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "mean"
+              },
+              "replaceFields": true
+            }
+          }
+        ],
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 8,
+          "y": 0
+        },
+        "id": 22,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Total Starting Count",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": false,
+                "Total_Credits_Price": true,
+                "Total_Purchases": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": true
+            }
+          }
+        ],
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 12,
+          "y": 0
+        },
+        "id": 20,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Total Starting Value",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": false,
+                "Total_Purchases": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": true
+            }
+          }
+        ],
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 16,
+          "y": 0
+        },
+        "id": 23,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Total Remaining Count",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": true,
+                "Total_Purchases": true,
+                "Unused_Credits": false,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": true
+            }
+          }
+        ],
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 20,
+          "y": 0
+        },
+        "id": 21,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Total Remaining Value",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": true,
+                "Total_Purchases": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": false
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": true
+            }
+          }
+        ],
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total Purchases"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "short"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 5
+        },
+        "id": 28,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Package Comparisons",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": false,
+                "Total_Purchases": false,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": false
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 12,
+          "x": 0,
+          "y": 17
+        },
+        "id": 24,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Starting Counts per Package",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": false,
+                "Total_Credits_Price": true,
+                "Total_Purchases": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "currencyUSD"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 12,
+          "x": 12,
+          "y": 17
+        },
+        "id": 26,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Starting Value per Package",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": false,
+                "Total_Purchases": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 12,
+          "x": 0,
+          "y": 28
+        },
+        "id": 25,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Remaining Counts per Package",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": true,
+                "Total_Purchases": true,
+                "Unused_Credits": false,
+                "Unused_Credits_Price": true
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "currencyUSD"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 12,
+          "x": 12,
+          "y": 28
+        },
+        "id": 27,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 17,
+            "refId": "A"
+          }
+        ],
+        "title": "Remaining Value per Package",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Avg_Price": true,
+                "Total_Credits": true,
+                "Total_Credits_Price": true,
+                "Total_Purchases": true,
+                "Unused_Credits": true,
+                "Unused_Credits_Price": false
+              },
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "vjMPI064z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total Purchases"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "short"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Starting Class Count"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "short"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Remaining Class Count"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "short"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 39
+        },
+        "id": 17,
+        "options": {
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "dataset": "dev",
+            "datasource": {
+              "type": "mysql",
+              "uid": "vjMPI064z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT \r\n    Package2,\r\n    COUNT(*) AS Total_Purchases,\r\n    AVG(Total_Price) AS Avg_Price,\r\n    SUM(Package_Credits) AS Total_Credits,\r\n    SUM(CASE WHEN Package_Used = 0 THEN Credits_Price ELSE 0 END) AS Unused_Credits_Price,\r\n    SUM(Credits_Price) AS Total_Credits_Price,\r\n    SUM(CASE WHEN Package_Used = 0 THEN Purchased_Credits ELSE 0 END) AS Unused_Credits\r\nFROM (\r\n    SELECT \r\n        uprofiles.first_name AS User,\r\n        uprofiles.email AS Email,\r\n        combos.name AS Package2,\r\n        ucredits.used AS Package_Used,\r\n        IF(DATE(ucredits.expiration_date) < CURDATE(), 'Expired', IF(ucredits.deleted_at IS NOT NULL, 'Canceled', 'Active')) AS Package_Status,\r\n        combos.credits AS Package_Credits,\r\n        combos.price AS Package_Price,\r\n        (pitems.item_price_final / (pitems.quantity * combos.credits)) AS Credits_Price,\r\n        pitems.quantity AS Quantity,\r\n        purchases.subtotal AS Total_Price,\r\n        pitems.item_credits AS Purchased_Credits,\r\n        locations.name AS Location,\r\n        ucredits.created_at AS Date,\r\n        ucredits.expiration_date AS Expiry\r\n    FROM\r\n        dev.credits AS credits\r\n    JOIN\r\n        dev.users_credits AS ucredits ON credits.id = ucredits.credits_id\r\n    JOIN\r\n        dev.combos AS combos ON combos.credits_id = credits.id\r\n    JOIN\r\n        dev.user_profiles AS uprofiles ON ucredits.user_profiles_id = uprofiles.id\r\n    JOIN\r\n        dev.purchase_items AS pitems ON pitems.credits_id = credits.id\r\n    JOIN\r\n        dev.purchases AS purchases ON purchases.id = pitems.purchases_id\r\n    JOIN\r\n        dev.locations AS locations ON locations.id = pitems.locations_id\r\n    WHERE\r\n        purchases.brands_id IN ($brands) AND\r\n        combos.status IN ($packagestatus) AND\r\n        ucredits.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                                AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\n    LIMIT $limit\r\n) AS subquery\r\nGROUP BY\r\n    Package2;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "staff"
+          }
+        ],
+        "title": "Packages Details",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "Avg_Price": 2,
+                "Package2": 0,
+                "Total_Credits": 3,
+                "Total_Credits_Price": 4,
+                "Total_Purchases": 1,
+                "Unused_Credits": 5,
+                "Unused_Credits_Price": 6
+              },
+              "renameByName": {
+                "Avg_Price": "Average Price per Purchase",
+                "Package2": "Package",
+                "Total_Credits": "Starting Class Count",
+                "Total_Credits_Price": "Starting Value",
+                "Total_Purchases": "Total Purchases",
+                "Unused_Credits": "Remaining Class Count",
+                "Unused_Credits_Price": "Remaining Value"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": []
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 6,
+          "x": 0,
+          "y": 50
+        },
+        "id": 11,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 4,
+            "refId": "A"
+          }
+        ],
+        "title": "User Packages Status",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Date": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Package_Status": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Payment"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "currencyUSD"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 9,
+          "x": 6,
+          "y": 50
+        },
+        "id": 10,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 4,
+            "refId": "A"
+          }
+        ],
+        "title": "Packages Availed Over Time",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Date": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "Email": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Package_Credits": {
+                  "aggregations": []
+                },
+                "Package_Status": {
+                  "aggregations": []
+                },
+                "Package_Used": {
+                  "aggregations": [
+                    "sum"
+                  ]
+                },
+                "Purchased_Credits": {
+                  "aggregations": [
+                    "sum"
+                  ]
+                },
+                "Purchased_Price": {
+                  "aggregations": [
+                    "sum"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "Email (count)": "Packages Availed",
+                "Purchased_Price (sum)": "Ammount Recieved"
+              }
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Payment"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "currencyUSD"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 9,
+          "x": 15,
+          "y": 50
+        },
+        "id": 8,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 4,
+            "refId": "A"
+          }
+        ],
+        "title": "Ammount Recieved Over Time",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Credits_Price": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Date": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "Package_Credits": {
+                  "aggregations": []
+                },
+                "Package_Status": {
+                  "aggregations": []
+                },
+                "Package_Used": {
+                  "aggregations": [
+                    "sum"
+                  ]
+                },
+                "Purchased_Credits": {
+                  "aggregations": [
+                    "sum"
+                  ]
+                },
+                "Purchased_Price": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                }
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "Credits_Price (sum)": "",
+                "Purchased_Price (sum)": "Ammount Recieved"
+              }
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "vjMPI064z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": []
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Payment"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "currencyUSD"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "inactive"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "orange",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 6,
+          "x": 0,
+          "y": 61
+        },
+        "id": 3,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true,
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "vjMPI064z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT id, IF( deleted_at is not null, 'Canceled' , status) as status\r\nFROM combos;",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Package Status",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "id": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "status": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "currencyUSD"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Payment"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "currencyUSD"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 9,
+          "x": 6,
+          "y": 61
+        },
+        "id": 13,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 4,
+            "refId": "A"
+          }
+        ],
+        "title": "Earnings per Package",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Credits_Price": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Package2": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "currencyUSD"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Payment"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "currencyUSD"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 9,
+          "x": 15,
+          "y": 61
+        },
+        "id": 16,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 4,
+            "refId": "A"
+          }
+        ],
+        "title": "Earnings per Location",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Credits_Price": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Location": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Package2": {
+                  "aggregations": []
+                }
+              }
+            }
+          },
+          {
+            "id": "rowsToFields",
+            "options": {}
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "-- Dashboard --"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Payment"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "currencyUSD"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 72
+        },
+        "id": 12,
+        "options": {
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "datasource",
+              "uid": "-- Dashboard --"
+            },
+            "panelId": 4,
+            "refId": "A"
+          }
+        ],
+        "title": "Packages Availed by Users",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "Date": {
+                  "aggregations": []
+                },
+                "Email": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Package2": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "groupby"
+                },
+                "Package_Credits": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Package_Used": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "User": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "Remaining Credits",
+              "binary": {
+                "left": "Package_Credits (sum)",
+                "operator": "-",
+                "reducer": "sum",
+                "right": "Package_Used (sum)"
+              },
+              "mode": "binary",
+              "reduce": {
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "Email": 1,
+                "Package2": 2,
+                "Package_Credits (sum)": 5,
+                "Package_Used (sum)": 3,
+                "Remaining Credits": 4,
+                "User": 0
+              },
+              "renameByName": {
+                "Package2": "Package",
+                "Package_Credits (sum)": "Total Credits",
+                "Package_Used (sum)": "Credits Used",
+                "Remaining Credits": "Available Credits"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "vjMPI064z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Payment"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "currencyUSD"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 83
+        },
+        "id": 4,
+        "options": {
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "9.4.7",
+        "targets": [
+          {
+            "dataset": "dev",
+            "datasource": {
+              "type": "mysql",
+              "uid": "vjMPI064z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT uprofiles.first_name as User, uprofiles.email as Email, combos.name as Package2, ucredits.used as Package_Used, IF(DATE(ucredits.expiration_date) < CURDATE(), 'Expired', IF( ucredits.deleted_at is not null, 'Canceled' ,'Active')) as Package_Status, combos.credits as Package_Credits, combos.price as Package_Price, (pitems.item_price_final / (pitems.quantity * combos.credits)) as Credits_Price, pitems.quantity as Quantity, purchases.subtotal as Total_Price, pitems.item_credits as Purchased_Credits, locations.name as Location, ucredits.created_at as Date, ucredits.expiration_date as Expiry\r\nFROM\r\n    dev.credits as credits\r\nJOIN\r\n    dev.users_credits as ucredits ON credits.id = ucredits.credits_id\r\nJOIN\r\n    dev.combos as combos ON combos.credits_id = credits.id\r\nJOIN\r\n    dev.user_profiles as uprofiles ON ucredits.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.purchase_items as pitems ON pitems.credits_id = credits.id\r\nJOIN\r\n    dev.purchases as purchases ON purchases.id = pitems.purchases_id\r\nJOIN\r\n    dev.locations as locations ON locations.id = pitems.locations_id\r\nWHERE\r\n    purchases.brands_id IN ($brands) AND\r\n    combos.status IN ($packagestatus) AND\r\n    ucredits.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\nLIMIT $limit",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "staff"
+          }
+        ],
+        "title": "All Details",
+        "type": "table"
+      }
+    ],
+    "refresh": false,
+    "revision": 1,
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "mysql",
+            "uid": "fQK8bM1Mz"
+          },
+          "definition": "SELECT id FROM dev.brands\n",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Brands",
+          "multi": false,
+          "name": "brands",
+          "options": [],
+          "query": "SELECT id FROM dev.brands\n",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "inactive"
+            ],
+            "value": [
+              "inactive"
+            ]
+          },
+          "hide": 0,
+          "includeAll": true,
+          "label": "Package Status",
+          "multi": true,
+          "name": "packagestatus",
+          "options": [
+            {
+              "selected": false,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "active",
+              "value": "active"
+            },
+            {
+              "selected": true,
+              "text": "inactive",
+              "value": "inactive"
+            },
+            {
+              "selected": false,
+              "text": "canceled",
+              "value": "NULL"
+            }
+          ],
+          "query": "active , inactive , canceled : NULL",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "auto": false,
+          "auto_count": 30,
+          "auto_min": "10s",
+          "current": {
+            "selected": true,
+            "text": "500",
+            "value": "500"
+          },
+          "hide": 0,
+          "label": "Record Limit",
+          "name": "limit",
+          "options": [
+            {
+              "selected": false,
+              "text": "50",
+              "value": "50"
+            },
+            {
+              "selected": true,
+              "text": "500",
+              "value": "500"
+            },
+            {
+              "selected": false,
+              "text": "5000",
+              "value": "5000"
+            },
+            {
+              "selected": false,
+              "text": "50000",
+              "value": "50000"
+            },
+            {
+              "selected": false,
+              "text": "500000",
+              "value": "500000"
+            }
+          ],
+          "query": "50,500,5000,50000,500000",
+          "queryValue": "",
+          "refresh": 2,
+          "skipUrlSync": false,
+          "type": "interval"
+        }
+      ]
+    },
+    "time": {
+      "from": "2021-04-09T23:45:31.923Z",
+      "to": "2025-04-10T23:45:31.923Z"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Remaining Series",
+    "uid": "BJeN6r5Sk",
+    "version": 61,
+    "weekStart": ""
+  }
