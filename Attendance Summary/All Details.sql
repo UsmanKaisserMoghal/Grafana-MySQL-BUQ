@@ -1,5 +1,6 @@
 SELECT  uprofiles.first_name as User,
         uprofiles.email as Email,
+        memberships.name as Membership,
         CASE
             WHEN reservations.attendance IS NULL THEN 'not-attended'
             ELSE reservations.attendance
@@ -12,6 +13,10 @@ SELECT  uprofiles.first_name as User,
         reservations.meeting_start Meeting_Date
 FROM
     dev.user_profiles as uprofiles
+JOIN
+    dev.users_memberships as umemberships ON umemberships.user_profiles_id = uprofiles.id
+JOIN
+    dev.memberships as memberships ON umemberships.memberships_id = memberships.id
 JOIN
     dev.reservations as reservations ON reservations.user_profiles_id = uprofiles.users_id
 JOIN
