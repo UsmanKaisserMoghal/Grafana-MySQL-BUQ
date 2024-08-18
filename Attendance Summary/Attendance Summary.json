@@ -712,6 +712,36 @@
                 "value": "currencyUSD"
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "d/iRivhmjIk/reservation-details?var-date=${__data.fields.Date}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 195
+              }
+            ]
           }
         ]
       },
@@ -730,13 +760,13 @@
           "reducer": [
             "sum"
           ],
-          "show": false
+          "show": true
         },
         "showHeader": true,
         "sortBy": [
           {
             "desc": true,
-            "displayName": "Date"
+            "displayName": "Total"
           }
         ]
       },
@@ -751,7 +781,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT  \r\n    DATE(reservations.meeting_start) as Date,\r\n    COUNT(reservations.id) as Total,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) as Paid,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name LIKE \"%comp%\" THEN 1 ELSE 0 END) as Comped,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance = 'first-time' THEN 1 ELSE 0 END) as \"First Time\",\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND (reservations.attendance IS NULL OR reservations.attendance = 'not-attended' OR reservations.attendance = '') THEN 1 ELSE 0 END) as \"No Shows\",\r\n    SUM(CASE WHEN reservations.cancelled = 1 THEN 1 ELSE 0 END) as Cancelled,\r\n    COUNT(waitlist.reservations_id) as Waitlisted,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance != 'first-time' THEN 1 ELSE 0 END) as \"Repeat\",\r\n    ROUND(COUNT(reservations.id) / COUNT(DISTINCT reservations.meetings_id)) as AVG,\r\n    COUNT(DISTINCT reservations.meetings_id) as \"Number Classes\",\r\n    LEAST((COUNT(reservations.id) / (COUNT(DISTINCT reservations.meetings_id) * 29)) * 100,100) as Capacity,\r\n    (SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) / COUNT(reservations.id)) * 100 as Paying,\r\n    SUM(purchases.total) as Revenue\r\nFROM\r\n    dev.reservations as reservations JOIN reservation_credits as rescredits ON reservations.id=rescredits.reservations_id\r\n    JOIN meetings as meetings ON reservations.meetings_id=meetings.id\r\n    JOIN users_credits as ucredits ON rescredits.users_credits_id=ucredits.id\r\n    JOIN purchases as purchases ON ucredits.purchases_id=purchases.id\r\n    JOIN payment_types as paytypes ON purchases.payment_types_id=paytypes.id\r\n    LEFT OUTER JOIN dev.waitlist as waitlist ON reservations.id = waitlist.reservations_id\r\nWHERE\r\n    reservations.deleted_at IS NULL AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                                AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\nGROUP BY\r\n    DATE(reservations.meeting_start);",
+          "rawSql": "SELECT  \r\n    SUBSTRING(reservations.meeting_start, 1, 10) as Date,\r\n    COUNT(reservations.id) as Total,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) as Paid,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name LIKE \"%comp%\" THEN 1 ELSE 0 END) as Comped,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance = 'first-time' THEN 1 ELSE 0 END) as \"First Time\",\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND (reservations.attendance IS NULL OR reservations.attendance = 'not-attended' OR reservations.attendance = '') THEN 1 ELSE 0 END) as \"No Shows\",\r\n    SUM(CASE WHEN reservations.cancelled = 1 THEN 1 ELSE 0 END) as Cancelled,\r\n    COUNT(waitlist.reservations_id) as Waitlisted,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance != 'first-time' THEN 1 ELSE 0 END) as \"Repeat\",\r\n    ROUND(COUNT(reservations.id) / COUNT(DISTINCT reservations.meetings_id)) as AVG,\r\n    COUNT(DISTINCT reservations.meetings_id) as \"Number Classes\",\r\n    LEAST((COUNT(reservations.id) / (COUNT(DISTINCT reservations.meetings_id) * 29)) * 100,100) as Capacity,\r\n    (SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) / COUNT(reservations.id)) * 100 as Paying,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN pitems.item_price_final ELSE 0 END) as Revenue\r\nFROM\r\n    reservations as reservations JOIN reservation_credits as rescredits ON reservations.id=rescredits.reservations_id\r\n    JOIN meetings as meetings ON reservations.meetings_id=meetings.id\r\n    JOIN users_credits as ucredits ON rescredits.users_credits_id=ucredits.id\r\n    JOIN purchases as purchases ON ucredits.purchases_id=purchases.id\r\n    JOIN purchase_items as pitems ON pitems.purchases_id = purchases.id\r\n    JOIN payment_types as paytypes ON purchases.payment_types_id=paytypes.id\r\n    LEFT OUTER JOIN dev.waitlist as waitlist ON reservations.id = waitlist.reservations_id\r\nWHERE\r\n    reservations.deleted_at IS NULL AND\r\n    pitems.buyed_type LIKE \"%Combos%\" AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                                AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\nGROUP BY\r\n    SUBSTRING(reservations.meeting_start, 1, 10);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1326,7 +1356,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1471,7 +1502,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1506,6 +1538,17 @@
                 ]
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Location"
+            },
+            "properties": [
+              {
+                "id": "custom.width"
+              }
+            ]
           }
         ]
       },
@@ -1526,7 +1569,8 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": []
       },
       "pluginVersion": "9.4.7",
       "targets": [
@@ -1539,7 +1583,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT  uprofiles.first_name as User,\r\n        uprofiles.email as Email,\r\n        CASE\r\n            WHEN reservations.attendance IS NULL THEN 'not-attended'\r\n            ELSE reservations.attendance\r\n        END AS Attendance,\r\n        locations.name as Location,\r\n        reservations.meetings_id as Meeting_ID,\r\n        staff.name as Staff,\r\n        services.name as Service,\r\n        reservations.cancelled as Cancelled,\r\n        reservations.meeting_start Meeting_Date\r\nFROM\r\n    dev.user_profiles as uprofiles\r\nJOIN\r\n    dev.reservations as reservations ON reservations.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.services as services ON reservations.services_id = services.id\r\nJOIN\r\n    dev.staff as staff ON reservations.staff_id = staff.id\r\nJOIN\r\n    dev.locations as locations ON locations.id = reservations.locations_id\r\nWHERE\r\n    reservations.brands_id = $brand_id AND\r\n    reservations.cancelled IN ($cancel) AND\r\n    locations.name IN ($location) AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00');",
+          "rawSql": "SELECT  uprofiles.first_name as User,\r\n        uprofiles.email as Email,\r\n        memberships.name as Membership,\r\n        CASE\r\n            WHEN reservations.attendance IS NULL THEN 'not-attended'\r\n            ELSE reservations.attendance\r\n        END AS Attendance,\r\n        locations.name as Location,\r\n        reservations.meetings_id as Meeting_ID,\r\n        staff.name as Staff,\r\n        services.name as Service,\r\n        reservations.cancelled as Cancelled,\r\n        reservations.meeting_start Meeting_Date\r\nFROM\r\n    dev.user_profiles as uprofiles\r\nJOIN\r\n    dev.users_memberships as umemberships ON umemberships.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.memberships as memberships ON umemberships.memberships_id = memberships.id\r\nJOIN\r\n    dev.reservations as reservations ON reservations.user_profiles_id = uprofiles.users_id\r\nJOIN\r\n    dev.services as services ON reservations.services_id = services.id\r\nJOIN\r\n    dev.staff as staff ON reservations.staff_id = staff.id\r\nJOIN\r\n    dev.locations as locations ON locations.id = reservations.locations_id\r\nWHERE\r\n    reservations.brands_id = $brand_id AND\r\n    reservations.cancelled IN ($cancel) AND\r\n    locations.name IN ($location) AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00');",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1570,7 +1614,7 @@
       "type": "table"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
@@ -1580,8 +1624,8 @@
       {
         "current": {
           "selected": false,
-          "text": "1",
-          "value": "1"
+          "text": "5",
+          "value": "5"
         },
         "datasource": {
           "type": "mysql",
@@ -1603,7 +1647,7 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -1672,6 +1716,6 @@
   "timezone": "",
   "title": "Attendence Summary",
   "uid": "lsDSdIbIk",
-  "version": 64,
+  "version": 75,
   "weekStart": ""
 }
