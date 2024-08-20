@@ -1,0 +1,496 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 53,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "fQK8bM1Mz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Starting Count"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Remaining Count"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Combo"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "d/JDybK9jSz/combo-details?var-combo_name=${__data.fields.Combo}&var-brands_id=${brands_id}&${__url_time_range}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 20,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Date"
+          }
+        ]
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "fQK8bM1Mz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    -- CASE\r\n    --     WHEN $month = '00' THEN $year\r\n    --     ELSE \"${month:text} - $year\"\r\n    -- END as Date,\r\n    SUBSTRING(pitems.created_at,1,10) as Date,\r\n    combos.name as Combo,\r\n    COUNT(pitems.item_credits) as \"Starting Count\",\r\n    SUM(pitems.item_price) as \"Starting Value\",\r\n    SUM(ucredits.used) as \"Remaining Count\",\r\n    SUM(CASE WHEN ucredits.used = 1 THEN pitems.item_price ELSE 0 END) as \"Remaining Value\"\r\nFROM \r\n    combos as combos\r\n    JOIN purchase_items as pitems ON pitems.buyed_id = combos.id\r\n    LEFT JOIN users_credits as ucredits ON ucredits.purchase_items_id = pitems.id\r\nWHERE\r\n    -- SUBSTRING(pitems.created_at, \r\n    --     1, \r\n    --     CASE \r\n    --         WHEN $month = '00' THEN 4\r\n    --         ELSE 7\r\n    --     END\r\n    -- ) = \r\n    -- CASE \r\n    --     WHEN $month = '00' THEN \"$year\"\r\n    --     ELSE \"$year-$month\"\r\n    -- END AND\r\n    pitems.deleted_at IS NULL AND\r\n    CONVERT(pitems.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') AND CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00') AND\r\n    pitems.deleted_at IS NULL AND\r\n    pitems.brands_id = \"$brands_id\"\r\nGROUP BY\r\n    SUBSTRING(pitems.created_at,1,10), combos.name;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Packages Summary",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "fQK8bM1Mz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Starting Count"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Remaining Count"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Membership"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "d/JDybK9jSz/combo-details?var-membership_name=${__data.fields.Membership}&var-brands_id=${brands_id}&${__url_time_range}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 20,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 3,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "fQK8bM1Mz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    -- CASE\r\n    --     WHEN $month = '00' THEN $year\r\n    --     ELSE \"${month:text} - $year\"\r\n    -- END as Date,\r\n    SUBSTRING(pitems.created_at,1,10) as Date,\r\n    memberships.name as Membership,\r\n    COUNT(pitems.item_credits) as \"Starting Count\",\r\n    SUM(pitems.item_price) as \"Starting Value\",\r\n    SUM(ucredits.used) as \"Remaining Count\",\r\n    SUM(CASE WHEN ucredits.used = 1 THEN pitems.item_price ELSE 0 END) as \"Remaining Value\"\r\nFROM \r\n    memberships as memberships\r\n    JOIN users_memberships as umembers ON umembers.memberships_id = memberships.id\r\n    LEFT JOIN purchase_items as pitems ON pitems.id = umembers.purchase_items_id\r\n    LEFT JOIN users_credits as ucredits ON pitems.id = ucredits.purchase_items_id\r\nWHERE\r\n    -- SUBSTRING(pitems.created_at, \r\n    --     1, \r\n    --     CASE \r\n    --         WHEN $month = '00' THEN 4\r\n    --         ELSE 7\r\n    --     END\r\n    -- ) = \r\n    -- CASE \r\n    --     WHEN $month = '00' THEN \"$year\"\r\n    --     ELSE \"$year-$month\"\r\n    -- END\r\n    pitems.deleted_at IS NULL AND\r\n    CONVERT(pitems.created_at, DATETIME) between CONVERT_TZ(from_unixtime($__unixEpochFrom()),'+00:00', '-05:00') AND CONVERT_TZ(from_unixtime($__unixEpochTo()),'+00:00' , '-05:00') AND\r\n    pitems.brands_id = \"$brands_id\"\r\nGROUP BY\r\n    SUBSTRING(pitems.created_at,1,10), memberships.name;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Memberships Summary",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "ALL",
+          "value": "00"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "Month",
+        "multi": false,
+        "name": "month",
+        "options": [
+          {
+            "selected": true,
+            "text": "ALL",
+            "value": "00"
+          },
+          {
+            "selected": false,
+            "text": "January",
+            "value": "01"
+          },
+          {
+            "selected": false,
+            "text": "February",
+            "value": "02"
+          },
+          {
+            "selected": false,
+            "text": "March",
+            "value": "03"
+          },
+          {
+            "selected": false,
+            "text": "April",
+            "value": "04"
+          },
+          {
+            "selected": false,
+            "text": "May",
+            "value": "05"
+          },
+          {
+            "selected": false,
+            "text": "June",
+            "value": "06"
+          },
+          {
+            "selected": false,
+            "text": "July",
+            "value": "07"
+          },
+          {
+            "selected": false,
+            "text": "August",
+            "value": "08"
+          },
+          {
+            "selected": false,
+            "text": "September",
+            "value": "09"
+          },
+          {
+            "selected": false,
+            "text": "October",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "November",
+            "value": "11"
+          },
+          {
+            "selected": false,
+            "text": "December",
+            "value": "12"
+          }
+        ],
+        "query": "ALL : 00 , January : 01 , February : 02 , March : 03 , April : 04 , May : 05 , June : 06 , July : 07 , August : 08 , September : 09 , October : 10 , November : 11 , December : 12",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "2020",
+          "value": "2020"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "Year",
+        "multi": false,
+        "name": "year",
+        "options": [
+          {
+            "selected": true,
+            "text": "2020",
+            "value": "2020"
+          },
+          {
+            "selected": false,
+            "text": "2021",
+            "value": "2021"
+          },
+          {
+            "selected": false,
+            "text": "2022",
+            "value": "2022"
+          },
+          {
+            "selected": false,
+            "text": "2023",
+            "value": "2023"
+          },
+          {
+            "selected": false,
+            "text": "2024",
+            "value": "2024"
+          },
+          {
+            "selected": false,
+            "text": "2025",
+            "value": "2025"
+          }
+        ],
+        "query": "2020 , 2021 , 2022 , 2023 , 2024 , 2025",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Fitspin",
+          "value": "86"
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "fQK8bM1Mz"
+        },
+        "definition": "SELECT id AS __value, name AS __text FROM brands",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Brand",
+        "multi": false,
+        "name": "brands_id",
+        "options": [],
+        "query": "SELECT id AS __value, name AS __text FROM brands",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Combos Summary",
+  "uid": "qFWnTYCIz",
+  "version": 22,
+  "weekStart": ""
+}
