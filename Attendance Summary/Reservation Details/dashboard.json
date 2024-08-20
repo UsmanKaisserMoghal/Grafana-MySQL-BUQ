@@ -1,0 +1,245 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 50,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "fQK8bM1Mz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Paying"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Capacity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Revenue"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "meeting_start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 192
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 25,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "User"
+          }
+        ]
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "dataset": "dev",
+          "datasource": {
+            "type": "mysql",
+            "uid": "fQK8bM1Mz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    reservations.meeting_start,\r\n    purchases.id as \"Purchase ID\",\r\n    pitems.admin_profiles_id,\r\n    CASE\r\n        WHEN pitems.admin_profiles_id IS NULL THEN 'WEBSITE'\r\n        ELSE aprofiles.first_name\r\n    END as \"Admin\",\r\n    users.name as User,\r\n    staff.name as Staff,\r\n    locations.name as Location,\r\n    reservations.cancelled,\r\n    paytypes.name,\r\n    reservations.attendance\r\nFROM\r\n    reservations as reservations \r\n    LEFT JOIN reservation_credits as rescredits ON reservations.id=rescredits.reservations_id\r\n    LEFT JOIN meetings as meetings ON reservations.meetings_id=meetings.id\r\n    LEFT JOIN users_credits as ucredits ON rescredits.users_credits_id=ucredits.id\r\n    LEFT JOIN purchases as purchases ON ucredits.purchases_id=purchases.id\r\n    LEFT JOIN purchase_items as pitems ON pitems.purchases_id = purchases.id\r\n    LEFT JOIN payment_types as paytypes ON purchases.payment_types_id=paytypes.id\r\n    LEFT OUTER JOIN waitlist as waitlist ON reservations.id = waitlist.reservations_id\r\n    LEFT JOIN staff as staff ON staff.id = reservations.staff_id\r\n    LEFT JOIN locations as locations ON locations.id = reservations.locations_id\r\n    LEFT JOIN users as users ON users.id = reservations.users_id\r\n    LEFT OUTER JOIN admin_profiles as aprofiles ON aprofiles.id = pitems.admin_profiles_id\r\nWHERE\r\n    reservations.deleted_at IS NULL AND\r\n    (pitems.buyed_type LIKE \"%Combos%\" OR pitems.buyed_type LIKE \"%Membership%\") AND\r\n    reservations.brands_id = \"$brands_id\"\r\nGROUP BY\r\n    SUBSTRING(reservations.meeting_start, 1, 10),\r\n    reservations.meeting_start,\r\n    users.name,\r\n    staff.name,\r\n    locations.name,\r\n    reservations.cancelled,\r\n    paytypes.name,\r\n    reservations.attendance,\r\n    purchases.id,\r\n    pitems.admin_profiles_id,\r\n    aprofiles.first_name\r\nHAVING\r\n    SUBSTRING(reservations.meeting_start, 1, 10) = \"$date\"\r\nLIMIT 100;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "reservations"
+        }
+      ],
+      "title": "Summary",
+      "transformations": [],
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "text": "2024-09-09",
+          "value": "2024-09-09"
+        },
+        "hide": 0,
+        "label": "date",
+        "name": "date",
+        "options": [],
+        "query": "",
+        "queryValue": "",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Fitspin",
+          "value": "86"
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "fQK8bM1Mz"
+        },
+        "definition": "SELECT id AS __value, name AS __text FROM brands",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Brand",
+        "multi": false,
+        "name": "brands_id",
+        "options": [],
+        "query": "SELECT id AS __value, name AS __text FROM brands",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5y",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Reservation Details",
+  "uid": "iRivhmjIk",
+  "version": 26,
+  "weekStart": ""
+}
