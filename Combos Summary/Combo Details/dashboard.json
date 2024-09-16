@@ -1,0 +1,467 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 54,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "fQK8bM1Mz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 24,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": [
+            "Credits",
+            "Value"
+          ],
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "fQK8bM1Mz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    pitems.created_at AS Date,\r\n    combos.name as Combo,\r\n    pitems.purchases_id as \"Purchase ID\",\r\n    pitems.item_credits as \"Credits\",\r\n    (pitems.item_price * pitems.item_credits) as \"Value\"\r\nFROM \r\n    purchase_items as pitems\r\n    JOIN combos as combos ON pitems.buyed_id = combos.id\r\n    LEFT JOIN users_credits as ucredits ON ucredits.purchase_items_id = pitems.id\r\nWHERE\r\n    pitems.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME(${__from} / 1000), '+00:00', '-05:00') AND CONVERT_TZ(FROM_UNIXTIME(${__to} / 1000), '+00:00', '-05:00') AND\r\n    combos.name = \"$combo_name\" AND\r\n    pitems.brands_id = \"$brand_id\"",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Combo Details",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "fQK8bM1Mz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 24,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 3,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": [
+            "Credits",
+            "Value"
+          ],
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Value"
+          }
+        ]
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "fQK8bM1Mz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    pitems.created_at AS Date,\r\n    memberships.name as Membership,\r\n    pitems.purchases_id as \"Purchase ID\",\r\n    pitems.item_credits as \"Credits\",\r\n    (pitems.item_price * pitems.item_credits) as \"Value\"\r\nFROM \r\n    memberships as memberships\r\n    JOIN users_memberships as umembers ON umembers.memberships_id = memberships.id\r\n    LEFT JOIN purchase_items as pitems ON pitems.id = umembers.purchase_items_id\r\n    LEFT JOIN users_credits as ucredits ON pitems.id = ucredits.purchase_items_id\r\nWHERE\r\n    pitems.created_at BETWEEN CONVERT_TZ(FROM_UNIXTIME(${__from} / 1000), '+00:00', '-05:00') AND CONVERT_TZ(FROM_UNIXTIME(${__to} / 1000), '+00:00', '-05:00') AND\r\n    memberships.name = \"$membership_name\" AND\r\n    pitems.brands_id = \"$brand_id\"",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Membership Details",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "3 Clases",
+          "value": "3 Clases"
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "fQK8bM1Mz"
+        },
+        "definition": "SELECT DISTINCT name FROM combos",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Combo Name",
+        "multi": false,
+        "name": "combo_name",
+        "options": [],
+        "query": "SELECT DISTINCT name FROM combos",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "ElParque ( 1 VEZ AL DIA)",
+          "value": "ElParque ( 1 VEZ AL DIA)"
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "fQK8bM1Mz"
+        },
+        "definition": "SELECT DISTINCT name FROM memberships",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Membership",
+        "multi": false,
+        "name": "membership_name",
+        "options": [],
+        "query": "SELECT DISTINCT name FROM memberships",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "2020",
+          "value": "2020"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "Year",
+        "multi": false,
+        "name": "year",
+        "options": [
+          {
+            "selected": true,
+            "text": "2020",
+            "value": "2020"
+          },
+          {
+            "selected": false,
+            "text": "2021",
+            "value": "2021"
+          },
+          {
+            "selected": false,
+            "text": "2022",
+            "value": "2022"
+          },
+          {
+            "selected": false,
+            "text": "2023",
+            "value": "2023"
+          },
+          {
+            "selected": false,
+            "text": "2024",
+            "value": "2024"
+          },
+          {
+            "selected": false,
+            "text": "2025",
+            "value": "2025"
+          }
+        ],
+        "query": "2020 , 2021 , 2022 , 2023 , 2024 , 2025",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "ALL",
+          "value": "00"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "Month",
+        "multi": false,
+        "name": "month",
+        "options": [
+          {
+            "selected": true,
+            "text": "ALL",
+            "value": "00"
+          },
+          {
+            "selected": false,
+            "text": "January",
+            "value": "01"
+          },
+          {
+            "selected": false,
+            "text": "February",
+            "value": "02"
+          },
+          {
+            "selected": false,
+            "text": "March",
+            "value": "03"
+          },
+          {
+            "selected": false,
+            "text": "April",
+            "value": "04"
+          },
+          {
+            "selected": false,
+            "text": "May",
+            "value": "05"
+          },
+          {
+            "selected": false,
+            "text": "June",
+            "value": "06"
+          },
+          {
+            "selected": false,
+            "text": "July",
+            "value": "07"
+          },
+          {
+            "selected": false,
+            "text": "August",
+            "value": "08"
+          },
+          {
+            "selected": false,
+            "text": "September",
+            "value": "09"
+          },
+          {
+            "selected": false,
+            "text": "October",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "November",
+            "value": "11"
+          },
+          {
+            "selected": false,
+            "text": "December",
+            "value": "12"
+          }
+        ],
+        "query": "ALL : 00 , January : 01 , February : 02 , March : 03 , April : 04 , May : 05 , June : 06 , July : 07 , August : 08 , September : 09 , October : 10 , November : 11 , December : 12",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Fitspin",
+          "value": "86"
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "fQK8bM1Mz"
+        },
+        "definition": "SELECT id AS __value, name AS __text FROM brands",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Brand",
+        "multi": false,
+        "name": "brand_id",
+        "options": [],
+        "query": "SELECT id AS __value, name AS __text FROM brands",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Combo Details",
+  "uid": "JDybK9jSz",
+  "version": 21,
+  "weekStart": ""
+}
