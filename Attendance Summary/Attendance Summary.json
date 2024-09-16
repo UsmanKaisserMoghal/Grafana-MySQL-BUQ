@@ -47,7 +47,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
@@ -83,7 +84,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT uprofiles.first_name as User, uprofiles.email as Email, locations.name as Location, reservations.meetings_id as Meeting_ID, staff.name as Staff, reservations.cancelled as Cancelled, reservations.meeting_start Meeting_Date\r\nFROM\r\n    dev.user_profiles as uprofiles\r\nJOIN\r\n    dev.reservations as reservations ON reservations.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.staff as staff ON reservations.staff_id = staff.id\r\nJOIN\r\n    dev.locations as locations ON locations.id = reservations.locations_id\r\nWHERE\r\n    reservations.brands_id = $brand_id AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00');",
+          "rawSql": "SELECT uprofiles.first_name as User, uprofiles.email as Email, locations.name as Location, reservations.meetings_id as Meeting_ID, staff.name as Staff, reservations.cancelled as Cancelled, reservations.meeting_start Meeting_Date\r\nFROM\r\n    user_profiles as uprofiles\r\nJOIN\r\n    reservations as reservations ON reservations.user_profiles_id = uprofiles.id\r\nJOIN\r\n    staff as staff ON reservations.staff_id = staff.id\r\nJOIN\r\n    locations as locations ON locations.id = reservations.locations_id\r\nWHERE\r\n    reservations.brands_id = $brand_id AND\r\n    reservations.cancelled IN ($cancel) AND\r\n    locations.name IN ($location) AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00');",
           "refId": "A",
           "sql": {
             "columns": [
@@ -174,9 +175,41 @@
               "viz": false
             }
           },
-          "mappings": []
+          "mappings": [],
+          "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cancelled"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 10,
@@ -262,8 +295,8 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "0": "No",
-              "1": "Yes"
+              "0": "Active",
+              "1": "Cancelled"
             }
           }
         }
@@ -418,7 +451,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
@@ -542,7 +576,8 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
@@ -725,7 +760,7 @@
                   {
                     "targetBlank": true,
                     "title": "",
-                    "url": "d/iRivhmjIk/reservation-details?var-date=${__data.fields.Date}"
+                    "url": "d/iRivhmjIk/reservation-details?var-date=${__data.fields.Date}&var-brands_id=${brand_id}"
                   }
                 ]
               }
@@ -766,7 +801,7 @@
         "sortBy": [
           {
             "desc": true,
-            "displayName": "Total"
+            "displayName": "Date"
           }
         ]
       },
@@ -781,7 +816,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT  \r\n    SUBSTRING(reservations.meeting_start, 1, 10) as Date,\r\n    COUNT(reservations.id) as Total,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) as Paid,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name LIKE \"%comp%\" THEN 1 ELSE 0 END) as Comped,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance = 'first-time' THEN 1 ELSE 0 END) as \"First Time\",\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND (reservations.attendance IS NULL OR reservations.attendance = 'not-attended' OR reservations.attendance = '') THEN 1 ELSE 0 END) as \"No Shows\",\r\n    SUM(CASE WHEN reservations.cancelled = 1 THEN 1 ELSE 0 END) as Cancelled,\r\n    COUNT(waitlist.reservations_id) as Waitlisted,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance != 'first-time' THEN 1 ELSE 0 END) as \"Repeat\",\r\n    ROUND(COUNT(reservations.id) / COUNT(DISTINCT reservations.meetings_id)) as AVG,\r\n    COUNT(DISTINCT reservations.meetings_id) as \"Number Classes\",\r\n    LEAST((COUNT(reservations.id) / (COUNT(DISTINCT reservations.meetings_id) * 29)) * 100,100) as Capacity,\r\n    (SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) / COUNT(reservations.id)) * 100 as Paying,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN pitems.item_price_final ELSE 0 END) as Revenue\r\nFROM\r\n    reservations as reservations JOIN reservation_credits as rescredits ON reservations.id=rescredits.reservations_id\r\n    JOIN meetings as meetings ON reservations.meetings_id=meetings.id\r\n    JOIN users_credits as ucredits ON rescredits.users_credits_id=ucredits.id\r\n    JOIN purchases as purchases ON ucredits.purchases_id=purchases.id\r\n    JOIN purchase_items as pitems ON pitems.purchases_id = purchases.id\r\n    JOIN payment_types as paytypes ON purchases.payment_types_id=paytypes.id\r\n    LEFT OUTER JOIN dev.waitlist as waitlist ON reservations.id = waitlist.reservations_id\r\nWHERE\r\n    reservations.deleted_at IS NULL AND\r\n    pitems.buyed_type LIKE \"%Combos%\" AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                                AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\nGROUP BY\r\n    SUBSTRING(reservations.meeting_start, 1, 10);",
+          "rawSql": "SELECT  \r\n    SUBSTRING(reservations.meeting_start, 1, 10) as Date,\r\n    COUNT(reservations.id) as Total,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) as Paid,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name LIKE \"%comp%\" THEN 1 ELSE 0 END) as Comped,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance = 'first-time' THEN 1 ELSE 0 END) as \"First Time\",\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND (reservations.attendance IS NULL OR reservations.attendance = 'not-attended' OR reservations.attendance = '') THEN 1 ELSE 0 END) as \"No Shows\",\r\n    SUM(CASE WHEN reservations.cancelled = 1 THEN 1 ELSE 0 END) as Cancelled,\r\n    COUNT(waitlist.reservations_id) as Waitlisted,\r\n    SUM(CASE WHEN reservations.cancelled = 0 AND reservations.attendance != 'first-time' THEN 1 ELSE 0 END) as \"Repeat\",\r\n    ROUND(COUNT(reservations.id) / COUNT(DISTINCT reservations.meetings_id)) as AVG,\r\n    COUNT(DISTINCT reservations.meetings_id) as \"Number Classes\",\r\n    LEAST((COUNT(reservations.id) / (COUNT(DISTINCT reservations.meetings_id) * 29)) * 100,100) as Capacity,\r\n    (SUM(CASE WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" THEN 1 ELSE 0 END) / COUNT(reservations.id)) * 100 as Paying,\r\n    SUM(\r\n        CASE \r\n            WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" AND pitems.buyed_type LIKE \"%Combos%\" THEN pitems.item_price_final \r\n            WHEN reservations.cancelled = 0 AND paytypes.name NOT LIKE \"%comp%\" AND pitems.buyed_type LIKE \"%Membership%\" THEN memberships.estimated_value_class\r\n            ELSE 0\r\n        END\r\n    ) as Revenue\r\nFROM\r\n    reservations as reservations LEFT JOIN reservation_credits as rescredits ON reservations.id=rescredits.reservations_id\r\n    LEFT JOIN meetings as meetings ON reservations.meetings_id=meetings.id\r\n    LEFT JOIN users_credits as ucredits ON rescredits.users_credits_id=ucredits.id\r\n    LEFT JOIN purchases as purchases ON ucredits.purchases_id = purchases.id\r\n    LEFT JOIN purchase_items as pitems ON pitems.purchases_id = ucredits.purchases_id\r\n    LEFT JOIN payment_types as paytypes ON purchases.payment_types_id=paytypes.id\r\n    LEFT OUTER JOIN waitlist as waitlist ON reservations.id = waitlist.reservations_id\r\n    LEFT JOIN staff as staff ON staff.id = reservations.staff_id\r\n    LEFT JOIN locations as locations ON locations.id = reservations.locations_id\r\n    LEFT JOIN users as users ON users.id = reservations.users_id\r\n    LEFT JOIN users_memberships as umemberships ON umemberships.purchase_items_id = reservations.memberships_id\r\n    LEFT JOIN memberships as memberships ON memberships.id = umemberships.memberships_id\r\nWHERE\r\n    reservations.brands_id = $brand_id AND\r\n    reservations.cancelled IN ($cancel) AND\r\n    locations.name IN ($location) AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                                AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00')\r\nGROUP BY\r\n    SUBSTRING(reservations.meeting_start, 1, 10);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1356,8 +1391,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1502,8 +1536,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1570,7 +1603,12 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Membership"
+          }
+        ]
       },
       "pluginVersion": "9.4.7",
       "targets": [
@@ -1583,7 +1621,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT  uprofiles.first_name as User,\r\n        uprofiles.email as Email,\r\n        memberships.name as Membership,\r\n        CASE\r\n            WHEN reservations.attendance IS NULL THEN 'not-attended'\r\n            ELSE reservations.attendance\r\n        END AS Attendance,\r\n        locations.name as Location,\r\n        reservations.meetings_id as Meeting_ID,\r\n        staff.name as Staff,\r\n        services.name as Service,\r\n        reservations.cancelled as Cancelled,\r\n        reservations.meeting_start Meeting_Date\r\nFROM\r\n    dev.user_profiles as uprofiles\r\nJOIN\r\n    dev.users_memberships as umemberships ON umemberships.user_profiles_id = uprofiles.id\r\nJOIN\r\n    dev.memberships as memberships ON umemberships.memberships_id = memberships.id\r\nJOIN\r\n    dev.reservations as reservations ON reservations.user_profiles_id = uprofiles.users_id\r\nJOIN\r\n    dev.services as services ON reservations.services_id = services.id\r\nJOIN\r\n    dev.staff as staff ON reservations.staff_id = staff.id\r\nJOIN\r\n    dev.locations as locations ON locations.id = reservations.locations_id\r\nWHERE\r\n    reservations.brands_id = $brand_id AND\r\n    reservations.cancelled IN ($cancel) AND\r\n    locations.name IN ($location) AND\r\n    reservations.meeting_start BETWEEN CONVERT_TZ(FROM_UNIXTIME($__unixEpochFrom()), '+00:00', '-05:00')\r\n                      AND CONVERT_TZ(FROM_UNIXTIME($__unixEpochTo()), '+00:00', '-05:00');",
+          "rawSql": "SELECT\r\n  pitems.purchases_id as \"Purchase ID\",\r\n  CASE\r\n    WHEN pitems.admin_profiles_id IS NULL THEN 'WEBSITE'\r\n    ELSE aprofiles.first_name\r\n  END AS \"Admin\",\r\n  CASE\r\n    WHEN pitems.buyed_type LIKE '%Combos%' THEN 'Combo'\r\n    WHEN pitems.buyed_type LIKE '%Membership%' THEN 'Membership'\r\n    WHEN pitems.buyed_type LIKE '%Product%' THEN 'Product'\r\n    ELSE 'Other'\r\n  END AS \"Type\",\r\n  CASE\r\n    WHEN pitems.buyed_type LIKE '%Combos%' THEN combos.name\r\n    WHEN pitems.buyed_type LIKE '%Membership%' THEN memberships.name\r\n    WHEN pitems.buyed_type LIKE '%Product%' THEN products.name\r\n    ELSE 'Other'\r\n  END AS \"Sub-Type\",\r\n  uprofiles.first_name as User,\r\n  uprofiles.email as Email,\r\n  memberships.name as Membership,\r\n  CASE\r\n    WHEN reservations.attendance IS NULL THEN 'not-attended'\r\n    ELSE reservations.attendance\r\n  END AS Attendance,\r\n  locations.name as Location,\r\n  reservations.meetings_id as Meeting_ID,\r\n  staff.name as Staff,\r\n  services.name as Service,\r\n  reservations.cancelled as Cancelled,\r\n  reservations.meeting_start Meeting_Date,\r\n  JSON_EXTRACT(pu.extra_fields, \"$.note\") as \"Notes\"\r\nFROM\r\n  reservations as reservations\r\n  JOIN user_profiles as uprofiles ON reservations.user_profiles_id = uprofiles.users_id\r\n  JOIN users_memberships as umemberships ON umemberships.id = reservations.memberships_id\r\n  JOIN memberships as memberships ON umemberships.memberships_id = memberships.id\r\n  JOIN services as services ON reservations.services_id = services.id\r\n  JOIN staff as staff ON reservations.staff_id = staff.id\r\n  JOIN locations as locations ON locations.id = reservations.locations_id\r\n  JOIN purchase_items as pitems ON umemberships.purchase_items_id = pitems.id\r\n  JOIN purchases as pu ON pu.id = pitems.purchases_id\r\n  LEFT JOIN products on pitems.buyed_id = products.id\r\n  LEFT JOIN combos as combos ON pitems.buyed_id = combos.id\r\n  LEFT JOIN admin_profiles as aprofiles ON pitems.admin_profiles_id = aprofiles.id\r\nWHERE\r\n  reservations.brands_id = $brand_id\r\n  AND reservations.cancelled IN ($cancel)\r\n  AND pitems.deleted_at IS NULL\r\n  AND locations.name IN ($location)\r\n  AND reservations.meeting_start BETWEEN CONVERT_TZ(\r\n    FROM_UNIXTIME($__unixEpochFrom()),\r\n    '+00:00',\r\n    '-05:00'\r\n  )\r\n  AND CONVERT_TZ(\r\n    FROM_UNIXTIME($__unixEpochTo()),\r\n    '+00:00',\r\n    '-05:00'\r\n  );",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1624,21 +1662,21 @@
       {
         "current": {
           "selected": false,
-          "text": "5",
-          "value": "5"
+          "text": "Fitspin",
+          "value": "86"
         },
         "datasource": {
           "type": "mysql",
           "uid": "fQK8bM1Mz"
         },
-        "definition": "SELECT id FROM brands",
+        "definition": "SELECT id AS __value, name AS __text FROM brands",
         "hide": 0,
         "includeAll": false,
         "label": "Brand",
         "multi": false,
         "name": "brand_id",
         "options": [],
-        "query": "SELECT id FROM brands",
+        "query": "SELECT id AS __value, name AS __text FROM brands",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1680,7 +1718,7 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "All"
           ],
@@ -1692,30 +1730,30 @@
           "type": "mysql",
           "uid": "fQK8bM1Mz"
         },
-        "definition": "SELECT name FROM dev.locations",
+        "definition": "SELECT name FROM locations WHERE brands_id=\"$brand_id\"",
         "hide": 0,
         "includeAll": true,
         "label": "Location",
         "multi": true,
         "name": "location",
         "options": [],
-        "query": "SELECT name FROM dev.locations",
+        "query": "SELECT name FROM locations WHERE brands_id=\"$brand_id\"",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "2015-05-07T08:25:28.000Z",
-    "to": "2023-12-25T00:41:32.000Z"
+    "from": "now-7d",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Attendence Summary",
+  "title": "Attendance Summary",
   "uid": "lsDSdIbIk",
-  "version": 75,
+  "version": 109,
   "weekStart": ""
 }

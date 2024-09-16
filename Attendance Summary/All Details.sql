@@ -1,4 +1,21 @@
-SELECT  uprofiles.first_name as User,
+SELECT  pitems.purchases_id as "Purchase ID",
+        CASE
+            WHEN pitems.admin_profiles_id IS NULL THEN 'WEBSITE'
+            ELSE pitems.admin_profiles_id
+        END AS "Admin ID",
+        CASE
+                WHEN pitems.buyed_type LIKE '%Combos%' THEN 'Combo'
+                WHEN pitems.buyed_type LIKE '%Membership%' THEN 'Membership'
+                WHEN pitems.buyed_type LIKE '%Product%' THEN 'Product'
+                ELSE 'Other'
+        END AS "Type",
+        CASE
+                WHEN pitems.buyed_type LIKE '%Combos%' THEN combos.name
+                WHEN pitems.buyed_type LIKE '%Membership%' THEN memberships.name
+                WHEN pitems.buyed_type LIKE '%Product%' THEN products.name
+                ELSE 'Other'
+        END AS "Sub-Type",
+        uprofiles.first_name as User,
         uprofiles.email as Email,
         memberships.name as Membership,
         CASE
@@ -12,19 +29,25 @@ SELECT  uprofiles.first_name as User,
         reservations.cancelled as Cancelled,
         reservations.meeting_start Meeting_Date
 FROM
-    dev.user_profiles as uprofiles
+    user_profiles as uprofiles
 JOIN
-    dev.users_memberships as umemberships ON umemberships.user_profiles_id = uprofiles.id
+    users_memberships as umemberships ON umemberships.user_profiles_id = uprofiles.id
 JOIN
-    dev.memberships as memberships ON umemberships.memberships_id = memberships.id
+    memberships as memberships ON umemberships.memberships_id = memberships.id
 JOIN
-    dev.reservations as reservations ON reservations.user_profiles_id = uprofiles.users_id
+    reservations as reservations ON reservations.user_profiles_id = uprofiles.users_id
 JOIN
-    dev.services as services ON reservations.services_id = services.id
+    services as services ON reservations.services_id = services.id
 JOIN
-    dev.staff as staff ON reservations.staff_id = staff.id
+    staff as staff ON reservations.staff_id = staff.id
 JOIN
-    dev.locations as locations ON locations.id = reservations.locations_id
+    locations as locations ON locations.id = reservations.locations_id
+JOIN
+    purchase_items as pitems ON umemberships.purchase_items_id = pitems.id
+LEFT JOIN
+    products on pitems.buyed_id = products.id
+LEFT JOIN
+    combos as combos ON pitems.buyed_id = combos.id
 WHERE
     reservations.brands_id = $brand_id AND
     reservations.cancelled IN ($cancel) AND
